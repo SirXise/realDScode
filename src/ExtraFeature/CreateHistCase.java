@@ -23,7 +23,7 @@ public class CreateHistCase {
             File Fileright = new File("HistCase\\" + filename + ".txt");
             boolean test = Fileright.createNewFile();
             if (test) {
-                System.out.println("File created" + Fileright.getCanonicalPath());
+                System.out.println("File created at " + Fileright.getCanonicalPath());
                 writer = new PrintWriter(Fileright);
                 writer.println(numberdata + " " + numberbin);
                 String dataset ="";
@@ -36,8 +36,7 @@ public class CreateHistCase {
                 String ans = String.valueOf(Ans(numberdata,numberbin,dataset));
                 writer.println(ans);
             } else {
-                System.out.println("File already exist" + Fileright.getCanonicalPath());
-                System.out.println("File already exist" + Fileright.getCanonicalPath());
+                System.out.println("File already exist at " + Fileright.getCanonicalPath());
             }
         }
         catch(Exception e){
