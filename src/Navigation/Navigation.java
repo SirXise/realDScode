@@ -15,10 +15,13 @@ public class Navigation {
             try {
                 int NoCon = in.nextInt();
                 in.nextLine();
-                Graph<String> graph = new Graph<String>(NoCon + NoCon);
-                ArrayList<ArrayList<Integer>> adjList = new ArrayList<>(NoCon + NoCon);
+                int size = NoCon*2;
+                Graph<String> graph = new Graph<String>(size);
+                ArrayList<ArrayList<Integer>> adjList = new ArrayList<>(size);
 
-                for (int j = 0; j < NoCon + NoCon; j++) {
+                String str = "";
+
+                for (int j = 0; j < size; j++) {
                     adjList.add(new ArrayList<>());
                 }
 
@@ -45,12 +48,20 @@ public class Navigation {
                     String dir = in.nextLine();
                     String[] fromto = dir.split(" -> ");
 
-                    StringBuilder showQuery = new StringBuilder();
                     graph.hasVert(fromto[0]);
                     graph.hasVert(fromto[1]);
 
+                    if (graph.hasVert(fromto[0]) == false) {
+                        System.out.println("This source is invalid");
+                        continue;
+                    }
+                    if (graph.hasVert(fromto[1]) == false) {
+                        System.out.println("This destination is invalid");
+                        continue;
+                    }
+
                     sou = graph.indexVert(fromto[0]);
-                    dest = graph.indexVert(fromto[i]);
+                    dest = graph.indexVert(fromto[1]);
 
                     if (sou == -1) {
                         System.out.println("This source is invalid");
@@ -60,18 +71,19 @@ public class Navigation {
                     }
 
                     path = shortPath(adjList, sou, dest, (NoCon + NoCon));
-                    System.out.println(path);
+
                     if (path == null) {
                         System.out.println("There is no train from " + fromto[0] + " to " + fromto[1]);
                     } else {
                         for (int k = path.size() - 1; k >= 0; k--) {
                             if (k == 0) {
-                                showQuery.append(graph.getAllVertexObjects().get(path.get(k)));
+                                str += graph.getAllVertexObjects().get(path.get(k));
                                 continue;
                             }
-                            showQuery.append(graph.getAllVertexObjects().get(path.get(k))).append("->");
+                            str += graph.getAllVertexObjects().get(path.get(k)) + "->";
                         }
-                        System.out.println(showQuery);
+                        System.out.println(str);
+                        str = "";
                     }
                 }
 
