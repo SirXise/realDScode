@@ -1,0 +1,12 @@
+11
+Kolej 1 => Kolej 2
+Kolej 1 => Kolej 3
+Kolej 1 => Kolej 9
+Kolej 2 => Kolej 6
+Kolej 2 => Kolej 4
+Kolej 6 => Kolej 7
+Kolej 7 => Kolej 8
+Kolej 7 => Kolej 3
+Kolej 4 => Kolej 5
+Kolej 5 => Kolej 3
+Kolej 5 => Kolej 8
