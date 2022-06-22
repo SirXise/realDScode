@@ -16,7 +16,7 @@ public class Navigation {
                 int NoCon = in.nextInt();
                 in.nextLine();
                 int size = NoCon*2;
-                Graph<String> graph = new Graph<>(size);
+                Graph<String> graph = new Graph<String>(size);
                 ArrayList<ArrayList<Integer>> adjList = new ArrayList<>(size);
 
                 String str = "";
