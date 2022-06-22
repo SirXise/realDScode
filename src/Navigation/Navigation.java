@@ -16,7 +16,7 @@ public class Navigation {
                 int NoCon = in.nextInt();
                 in.nextLine();
                 int size = NoCon*2;
-                Graph<String> graph = new Graph<String>(size);
+                Graph<String> graph = new Graph<>(size);
                 ArrayList<ArrayList<Integer>> adjList = new ArrayList<>(size);
 
                 String str = "";
@@ -70,7 +70,7 @@ public class Navigation {
                         System.out.println("This destination is invalid");
                     }
 
-                    path = shortPath(adjList, sou, dest, (NoCon + NoCon));
+                    path = shortPath(adjList, sou, dest, size);
 
                     if (path == null) {
                         System.out.println("There is no train from " + fromto[0] + " to " + fromto[1]);
