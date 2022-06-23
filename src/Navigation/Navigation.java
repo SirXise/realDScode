@@ -9,33 +9,36 @@ public class Navigation {
         Scanner in = new Scanner(System.in);
 
         int i = 0;
-        int NoCases = in.nextInt();
+        int NoCases = in.nextInt(); //// Scan the number of test cases required
         in.nextLine();
         while (i < NoCases) {
             try {
-                int NoCon = in.nextInt();
+                int NoCon = in.nextInt(); ////Scan size of number of connections
                 in.nextLine();
                 int size = NoCon*2;
-                Graph<String> graph = new Graph<String>(size);
+                Graph<String> graph = new Graph<>(size); //call class graph
                 ArrayList<ArrayList<Integer>> adjList = new ArrayList<>(size);
-
+                //declare arraylist adjacency list to print short path
                 String str = "";
 
                 for (int j = 0; j < size; j++) {
                     adjList.add(new ArrayList<>());
                 }
+                //a place to store an arraylist inside adjacency arraylist
 
                 for (int j = 0; j < NoCon; j++) {
                     String data = in.nextLine();
-                    String[] conname = data.split(" => ");
+                    String[] conname = data.split(" => "); //split the string to get the vertex name
 
                     graph.addVertex(NoCon, conname[0]);
                     graph.addVertex(NoCon, conname[1]);
+                    //add both vertex to linkedlist in graph using addVertex method
 
                     if (graph.addEdge(conname[0], conname[1]) && graph.addEdge(conname[1], conname[0])==true) {
                         int sou = graph.indexVert(conname[0]);
                         int dest = graph.indexVert(conname[1]);
-                        addEdge(adjList, sou, dest);
+                        addEdge(adjList, sou, dest); //add edge between source and destination
+                        //to find the shortest route 
                     }
                 }
 
@@ -46,7 +49,7 @@ public class Navigation {
 
                 for (int j = 0; j < NoQue; j++) {
                     String dir = in.nextLine();
-                    String[] fromto = dir.split(" -> ");
+                    String[] fromto = dir.split(" -> "); //split the string to get the vertex name
 
                     graph.hasVert(fromto[0]);
                     graph.hasVert(fromto[1]);
@@ -70,11 +73,12 @@ public class Navigation {
                         System.out.println("This destination is invalid");
                     }
 
-                    path = shortPath(adjList, sou, dest, size);
+                    path = shortPath(adjList, sou, dest, size); //call the shortPath method
+                    //to print the direction route from source vertex to destination vertex
 
                     if (path == null) {
                         System.out.println("There is no train from " + fromto[0] + " to " + fromto[1]);
-                    } else {
+                    } else {    //string to print the path
                         for (int k = path.size() - 1; k >= 0; k--) {
                             if (k == 0) {
                                 str += graph.getAllVertexObjects().get(path.get(k));
@@ -94,19 +98,22 @@ public class Navigation {
         }
 
     }
-
+    
+    //addEdge method for bidirectional connections
     private static void addEdge(ArrayList<ArrayList<Integer>> adjList, int i, int j){
         adjList.get(i).add(j);
         adjList.get(j).add(i);
     }
-
+    
+    //function to print the shortest distance and path between source and destination
     private static ArrayList<Integer> shortPath(ArrayList<ArrayList<Integer>> adjList, int sou, int dest, int v){
-        int[] pred = new int[v];
-        int[] dist = new int[v];
-
+        int[] pred = new int[v]; //predecessor[i] array to store predecessor of i
+        int[] dist = new int[v]; //distance array stores distance of i from source
+        
         if(!BFS(adjList, sou, dest, v, pred, dist))
             return null;
 
+        //linkedlist to store path
         ArrayList<Integer> path = new ArrayList<>();
         int go = dest;
         path.add(go);
@@ -117,18 +124,23 @@ public class Navigation {
         return path;
     }
 
+    //BFS method that stores predecessor of each vertex in predecessor[i] and its distance from source in dist[]
     public static boolean BFS(ArrayList<ArrayList<Integer>> adjList, int sou, int dest, int size, int[] pred, int[] dist){
         LinkedList<Integer> queue = new LinkedList<>();
+        //a queue to maintain a queue of vertices whose adjacency list to be scanned normally
+        //BFS algorithm using LinkedList of Integer type
         boolean[] visited = new boolean[size];
+        //boolean visited array to store information whether the vertices have been visited at least once
         for (int i = 0; i < size; i++) {
-            visited[i] = false;
-            dist[i] = Integer.MAX_VALUE;
+            visited[i] = false;     //all vertices are unvisited, so v[i] for all i is false
+            dist[i] = Integer.MAX_VALUE; //dist[i] for all i set to infinity
             pred[i] = -1;
         }
-        visited[sou] = true;
-        dist[sou] = 0;
-        queue.add(sou);
+        visited[sou] = true; //source is first to be visited and returns true
+        dist[sou] = 0; //distance from source to itself should be 0
+        queue.add(sou); //add the source vertex in the queue
 
+        //BFS Algorithm
         while(!queue.isEmpty()){
             int u = queue.remove();
             for (int i = 0; i < adjList.get(u).size(); i++) {
@@ -137,6 +149,7 @@ public class Navigation {
                     dist[adjList.get(u).get(i)] = dist[u] + 1;
                     pred[adjList.get(u).get(i)] = u;
                     queue.add(adjList.get(u).get(i));
+                    //stop condition when the destination vertex is found, return true
                     if(adjList.get(u).get(i) == dest)
                         return true;
                 }
